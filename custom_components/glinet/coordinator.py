@@ -35,6 +35,9 @@ class GLiNetDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self) -> Dict[str, Any]:
         """Fetch data from API endpoint."""
         try:
+            #M Modem data
+            modem_status = await self.haas.asyc_add_executor_job(self.api.get_modem_status)
+            
             # Run API calls in executor since they're blocking
             vpn_status = await self.hass.async_add_executor_job(self.api.get_active_vpn)
             system_status = await self.hass.async_add_executor_job(self.api.get_system_status)
@@ -65,6 +68,7 @@ class GLiNetDataUpdateCoordinator(DataUpdateCoordinator):
             clients = await self.hass.async_add_executor_job(self.api.get_clients)
             
             return {
+                "modem_status": modem_status,
                 "vpn_status": vpn_status,
                 "system_status": system_status,
                 "system_info": system_info,
