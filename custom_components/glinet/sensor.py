@@ -301,6 +301,7 @@ class GLiNetSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self) -> Any:
         """Return the state of the sensor."""
+        modem_status = self.coordinator.data.get("modem_status", {})
         system_status = self.coordinator.data.get("system_status", {})
         system_info = self.coordinator.data.get("system_info", {})
         disk_info = self.coordinator.data.get("disk_info", {})
@@ -502,6 +503,7 @@ class GLiNetSensor(CoordinatorEntity, SensorEntity):
     @property
     def extra_state_attributes(self) -> Dict[str, Any]:
         """Return the state attributes."""
+        modem_status = self.coordinator.data.get("modem_status", {})
         system_status = self.coordinator.data.get("system_status", {})
         system_info = self.coordinator.data.get("system_info", {})
         disk_info = self.coordinator.data.get("disk_info", {})
@@ -527,6 +529,25 @@ class GLiNetSensor(CoordinatorEntity, SensorEntity):
                 "group_id": vpn_status.get("group_id"),
                 "client_id": vpn_status.get("client_id"),
                 "peer_id": vpn_status.get("peer_id"),
+            }
+            
+        elif key == "modem_status":
+            sim = modem_status.get("simcard", {})
+            net = modem_status.get("network", {})
+            sig = sim.get("signal", {})
+            return{
+                "Status": sim.get("status"),
+                "Carrier": sim.get("carrier"),
+                "Phone Number": sim.get("phone_number"),
+                "Signal Mode": sig.get("mode"),
+                "Signal Strength": sig.get("strength"),
+                "RSSI": sig.get("rssi"),
+                "RSRP": sig.get("rsrp"),
+                "RSRQ": sig.get("rsrq"),
+                "SINR": sig.get("sinr"),
+                "Network Status": net.get("status"),
+                "Network Protocol": net.get("protocol"),
+                "SMS Inbox": net.get("new_sms_count"),      
             }
         
         elif key == "network_interfaces":
