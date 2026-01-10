@@ -25,6 +25,13 @@ from .coordinator import GLiNetDataUpdateCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 SENSOR_DESCRIPTIONS = [
+    # Modem Status
+    SensorEntityDescription(
+        key="modem_status",
+        name="Modem Status",
+        icon="mdi:signal-cellular-3",
+    ),
+    
     # VPN Status
     SensorEntityDescription(
         key="vpn_status",
