@@ -214,6 +214,10 @@ class GLiNetAPI:
             _LOGGER.error("RPC call error: %s", exc)
             return None
 
+    def get_modem_status(self) -> Optional[Dict]:
+        """Get modem status."""
+        return self._make_rpc_call("modem", "get_status")
+        
     def get_vpn_status(self, vpn_type: str) -> Optional[Dict]:
         """Get VPN status for a specific type."""
         return self._make_rpc_call(f"{vpn_type}-client", "get_status")
