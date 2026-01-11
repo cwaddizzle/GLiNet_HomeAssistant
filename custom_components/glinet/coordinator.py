@@ -36,7 +36,7 @@ class GLiNetDataUpdateCoordinator(DataUpdateCoordinator):
         """Fetch data from API endpoint."""
         try:
             # Modem data
-            modem_status = await self.hass.asyc_add_executor_job(self.api.get_modem_status)
+            modem_status = await self.hass.async_add_executor_job(self.api.get_modem_status)
             
             # Run API calls in executor since they're blocking
             vpn_status = await self.hass.async_add_executor_job(self.api.get_active_vpn)
